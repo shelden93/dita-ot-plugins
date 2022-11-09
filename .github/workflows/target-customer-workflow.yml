@@ -38,6 +38,7 @@ jobs:
       - name: Create Pull Request in delivery repo
         uses: peter-evans/create-pull-request@v4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           path: ./customer-delivery
           commit-message: Merged latest changes.
           branch: dev-auto-merge/latest-main-changes
