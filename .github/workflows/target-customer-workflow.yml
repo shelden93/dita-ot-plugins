@@ -23,6 +23,7 @@ jobs:
         working-directory: ./main
         run: ./mvnw package -pl targets/customer
         env:
+          ANT_HOME: '' # GitHub Ant installation is conflict
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout customer-delivery repo
         uses: actions/checkout@v3
