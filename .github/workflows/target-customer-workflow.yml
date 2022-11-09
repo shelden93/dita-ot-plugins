@@ -23,27 +23,24 @@ jobs:
         working-directory: ./main
         run: ./mvnw package -pl targets/customer
         env:
-          ANT_HOME: '' # GitHub Ant installation is conflict
+          ANT_HOME: '' # GitHub Ant installation conflicts
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Checkout customer-delivery repo
+      - name: Checkout customer-delivery
         uses: actions/checkout@v3
         with:
           repository: shelden93/customer-delivery
           ref: refs/heads/develop
           path: customer-delivery
-      - name: Clean in delivery repo
+      - name: Clean customer-delivery
         run: rm -fr ./customer-delivery/dita-ot-2.5.4
-      - name: Copy customer package into delivery repo
+      - name: Copy Package into customer-delivery
         run: cp -fr ./main/targets/customer/target/dita-ot-2.5.4 ./customer-delivery/dita-ot-2.5.4
-      - name: Create Pull Request in delivery repo
+      - name: Create Pull Request in customer-delivery
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.DELIVERY_REPO_SCOPED_TOKEN }}
           path: ./customer-delivery
-          commit-message: Merged latest changes.
-          branch: dev-auto-merge/latest-main-changes
+          commit-message: Latest changes for dita-ot plugins
+          branch: release/dita-ot-latest-changes
           delete-branch: true
-          title: '[RELEASE] Latest changes for customer'
-          team-reviewers: |
-            owners
-            maintainers
+          title: '[RELEASE] Latest changes for dita-ot plugins'
