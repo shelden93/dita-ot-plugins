@@ -37,9 +37,8 @@ jobs:
         run: cp -fr ./main/targets/customer/target/dita-ot-2.5.4 ./customer-delivery/dita-ot-2.5.4
       - name: Create Pull Request in delivery repo
         uses: peter-evans/create-pull-request@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.DELIVERY_REPO_SCOPED_TOKEN }}
         with:
+          token: ${{ secrets.DELIVERY_REPO_SCOPED_TOKEN }}
           path: ./customer-delivery
           commit-message: Merged latest changes.
           branch: dev-auto-merge/latest-main-changes
