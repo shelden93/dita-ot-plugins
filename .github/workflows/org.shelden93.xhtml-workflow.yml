@@ -3,6 +3,8 @@ name: org.shelden93.xhtml
 on:
   pull_request:
     types: [ opened, synchronize, reopened ]
+    branches:
+      - 'develop'
     paths:
       - plugins/org.shelden93.xhtml/**
   push:
