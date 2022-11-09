@@ -22,6 +22,8 @@ jobs:
       - name: Build customer package
         working-directory: ./main
         run: ./mvnw package -pl targets/customer
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout customer-delivery repo
         uses: actions/checkout@v3
         with:
