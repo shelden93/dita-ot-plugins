@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - 'main'
+      -
+permissions:
+  contents: write  # for peter-evans/create-pull-request to create branch
+  pull-requests: write  # for peter-evans/create-pull-request to create a PR
 
 jobs:
   build:
@@ -38,7 +42,6 @@ jobs:
       - name: Create Pull Request in delivery repo
         uses: peter-evans/create-pull-request@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           path: ./customer-delivery
           commit-message: Merged latest changes.
           branch: dev-auto-merge/latest-main-changes
