@@ -1,0 +1,45 @@
+name: customer
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    name: Build customer target
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: main
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Build customer package
+        working-directory: ./main
+        run: ./mvnw package -pl targets/customer
+      - name: Checkout customer-delivery repo
+        uses: actions/checkout@v3
+        with:
+          repository: shelden93/customer-delivery
+          ref: refs/heads/develop
+          path: customer-delivery
+      - name: Clean in delivery repo
+        run: rm -fr ./customer-delivery/dita-ot-2.5.4
+      - name: Copy customer package into delivery repo
+        run: cp -fr ./main/targets/customer/target/dita-ot-2.5.4 ./customer-delivery/dita-ot-2.5.4
+      - name: Create Pull Request in delivery repo
+        uses: peter-evans/create-pull-request@v4
+        with:
+          path: ./customer-delivery
+          commit-message: Merged latest changes.
+          branch: dev-auto-merge/latest-main-changes
+          delete-branch: true
+          title: '[RELEASE] Latest changes for customer'
+          team-reviewers: |
+            owners
+            maintainers
