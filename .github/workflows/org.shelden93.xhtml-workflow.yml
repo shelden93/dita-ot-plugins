@@ -7,7 +7,7 @@ on:
       - plugins/org.shelden93.xhtml/**
   push:
     branches:
-      - 'main'
+      - 'develop'
     paths:
       - plugins/org.shelden93.xhtml/**
 
