@@ -7,7 +7,7 @@ on:
       - plugins/org.shelden93.xhtml/**
   push:
     branches:
-      - 'main'
+      - 'develop'
     paths:
       - plugins/org.shelden93.xhtml/**
 
@@ -35,7 +35,7 @@ jobs:
           reporter: jest-junit
   build:
     name: Deploy to GitHub Packages
-    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
     needs: test
     runs-on: ubuntu-latest
     steps:
