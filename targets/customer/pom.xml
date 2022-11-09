@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>customer</artifactId>
+
+    <parent>
+        <groupId>org.shelden93</groupId>
+        <artifactId>targets</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <packaging>pom</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>download-dita-ot</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+<!--                                <get src="https://github.com/dita-ot/dita-ot/releases/download/2.5.4/dita-ot-2.5.4.zip"-->
+<!--                                     dest="${project.build.directory}/dita-ot-2.5.4.zip"-->
+<!--                                     verbose="false"-->
+<!--                                     usetimestamp="true"/>-->
+                                <unzip src="dist/dita-ot-2.5.4.zip" dest="${project.build.directory}"/>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <chmod file="${project.build.directory}/dita-ot-2.5.4/bin/ant" perm="ugo+rx"/>
+                                <exec dir="${project.build.directory}/dita-ot-2.5.4" executable="${project.build.directory}/dita-ot-2.5.4/bin/ant"
+                                      failonerror="true">
+                                    <arg line="-f integrator.xml"/>
+                                </exec>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.shelden93</groupId>
+                                    <artifactId>org.shelden93.base</artifactId>
+                                    <version>0.0.1-SNAPSHOT</version>
+                                    <type>zip</type>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.shelden93</groupId>
+                                    <artifactId>org.shelden93.xhtml</artifactId>
+                                    <version>0.0.1-SNAPSHOT</version>
+                                    <type>zip</type>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/dita-ot-2.5.4/plugins</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

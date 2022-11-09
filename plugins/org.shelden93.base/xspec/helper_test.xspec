@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="../xsl/helper.xsl">
+
+    <x:scenario label="Scenario for testing helper">
+        <x:call template="create-dummy-element"/>
+
+        <x:scenario label="when simple call">
+            <x:call/>
+            <x:expect label="the dummy result">
+                <dummy/>
+            </x:expect>
+        </x:scenario>
+    </x:scenario>
+</x:description>

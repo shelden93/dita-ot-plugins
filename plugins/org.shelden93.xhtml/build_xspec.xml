@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="run-all-xspec-files" name="run-xspec-tests-worker">
+
+    <!-- Include the core XSpec build file with some properties predefined.
+        Do not use <import> unless the core XSpec build file is tested with <include> somewhere else. -->
+    <include file="${xspec-dir}/build.xml"/>
+
+    <macrodef name="run-xspec">
+        <attribute name="test-type" default="t"/>
+        <attribute name="xspec-file"/>
+        <attribute name="output-dir" default="${working-dir}/output"/>
+        <sequential>
+            <!-- Directory where intermediate files are created.
+                This presumes <tempfile> to be practically thread-safe. -->
+            <local name="xspec-intermediate-dir"/>
+            <tempfile destdir="${java.io.tmpdir}" prefix="xspec-intermediate_" property="xspec-intermediate-dir"/>
+
+            <!-- Run XSpec.
+                This assumes the "xspec" target is included only in one hop.
+                (neither "xspec" nor "foo.xspec.xspec") -->
+            <antcall inheritall="false" target="xspec.xspec">
+                <param name="xspec.dir" location="${xspec-intermediate-dir}"/>
+                <param name="xspec.xml" location="@{xspec-file}"/>
+
+                <param name="test.type" value="@{test-type}"/>
+
+                <param name="xspec.output.dir" value="@{output-dir}"/>
+                <param name="xspec.junit.enabled" value="true"/>
+            </antcall>
+        </sequential>
+    </macrodef>
+
+    <target name="run-all-xspec-files">
+        <run-xspec xspec-file="./xspec/xhtml_test.xspec"
+                   output-dir="${working-dir}/xspec/xhtml"/>
+    </target>
+</project>
