@@ -6,5 +6,5 @@
         <xsl:element name="dummy"/>
     </xsl:template>
 
-    <xsl:template name="test"/>
+    <xsl:template name="test_123"/>
 </xsl:stylesheet>
