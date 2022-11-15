@@ -5,4 +5,6 @@
     <xsl:template name="create-dummy-element">
         <xsl:element name="dummy"/>
     </xsl:template>
+
+    <xsl:template name="test"/>
 </xsl:stylesheet>
